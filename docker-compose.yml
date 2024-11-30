@@ -1,0 +1,17 @@
+services:
+  openproject:
+    image: openproject/openproject:15
+    container_name: openproject
+    environment:
+      OPENPROJECT_HOST__NAME: $OPENPROJECT_HOST_NAME
+      OPENPROJECT_SECRET_KEY_BASE: secretx
+      OPENPROJECT_HTTPS: true
+    volumes:
+      - ./openproject/pgdata:/var/openproject/pgdata
+      - ./openproject/assets:/var/openproject/assets
+    restart: always
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token $CF_TOKEN
+    restart: always
+
